@@ -43,16 +43,3 @@ def clean_csv_data(df):
 
     return cleaned_df
 
-
-# Prototype function to detect outliers
-
-"""
-# Filler function to detect outliers
-#   Must determine how to actually detect outliers based of specific parameters for the values, and also which values to search through
-#       Merely test function:
-def detect_outliers(df):
-    for value in df.index:
-        if df.loc[value, 'High'] > 2000:
-            df.drop(value, inplace=True)
-    return df
-"""

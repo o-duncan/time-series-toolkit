@@ -1,10 +1,10 @@
 import pandas as pd
-# import numpy as np
-# import matplotlib.pyplot as plt
+import numpy as np
+
 from pathlib import Path
 
 from data_loader import read_csv_data, clean_csv_data
-from metrics import calculate_simple_returns
+from metrics import calculate_simple_returns, calculate_log_returns
 
 
 # Form project root and file directory
@@ -19,15 +19,18 @@ def main():
     - Create raw dataframe
     - Create cleaned df
     - Create a Series of simple returns
+    - Create a Series of log returns
     """
 
     raw_df = read_csv_data(file_path)
     cleaned_df = clean_csv_data(raw_df)
-    simple_returns = calculate_simple_returns(cleaned_df)
 
-    cleaned_df.info()
-    print()
-    print(simple_returns)
+    simple_returns = calculate_simple_returns(cleaned_df)
+    log_returns = calculate_log_returns(cleaned_df)
+    
+    # cleaned_df.info()
+    # print()
+    # print(log_returns)
 
 
 
