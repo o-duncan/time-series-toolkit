@@ -42,7 +42,7 @@ def calculate_log_returns(cleaned_df, price_column='Close'):
 
 # Calculate rolling volatility
 
-def calculate_rolling_volatility(cleaned_df, price_column='Close'):
+def calculate_rolling_volatility(cleaned_df, price_column='Close', window_size=20, trading_days_pa=252):
     """
     - Input cleaned dataframe into function
     - Calculate log returns from each day
@@ -55,8 +55,27 @@ def calculate_rolling_volatility(cleaned_df, price_column='Close'):
 
     log_returns = calculate_log_returns(cleaned_df[price_column])
 
-    std_series = log_returns.rolling(window=20).std()
+    std_series = log_returns.rolling(window=window_size).std()
 
-    rolling_volatility_series = std_series * np.sqrt(252)
+    rolling_volatility_series = std_series * np.sqrt(trading_days_pa)
 
     return rolling_volatility_series
+
+
+# Calculating moving averages
+
+def calculate_moving_average(cleaned_df, price_column='Close', window_size=20):
+    """
+    - Input cleaned dataframe
+    - calculate the rolling mean of data with configurable window size
+    
+    - Default window size of 20, assuming 20 trading days per month
+    """
+
+    pricing_series = cleaned_df[price_column]
+
+    rolling_average_series = pricing_series.rolling(window=window_size).mean()
+
+    return rolling_average_series
+
+

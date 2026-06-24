@@ -5,7 +5,7 @@ This project aims to be a starting point for further time-series analysis projec
 
 
 The v1 Scope:
-The aim is to provide cleaned datasets, showcasing simple and log returns, rolling volatility and moving averages, drawdons and summary statistics, correlation analysis between assets and clear plots of prices and key metrics
+The aim is to provide cleaned datasets, showcasing simple and log returns, rolling volatility and moving averages, drawdowns and summary statistics, correlation analysis between assets and clear plots of prices and key metrics
 
 
 Core Libraries Used:
