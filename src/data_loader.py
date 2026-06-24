@@ -29,7 +29,7 @@ def clean_csv_data(df):
 
     """
     cleaned_df = df.copy()
-    cleaned_df['Date'] = pd.to_datetime(read_df['Date'], errors='coerce')
+    cleaned_df['Date'] = pd.to_datetime(cleaned_df['Date'], errors='coerce')
     cleaned_df.drop_duplicates(inplace = True)
     cleaned_df = cleaned_df.sort_values('Date')
     cleaned_df = cleaned_df.dropna()
