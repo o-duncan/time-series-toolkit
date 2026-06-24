@@ -53,7 +53,7 @@ def calculate_rolling_volatility(cleaned_df, price_column='Close', window_size=2
     - Assuming 20 trading days per month, 252 trading days per year
     """
 
-    log_returns = calculate_log_returns(cleaned_df[price_column])
+    log_returns = calculate_log_returns(cleaned_df, price_column)
 
     std_series = log_returns.rolling(window=window_size).std()
 
@@ -79,3 +79,24 @@ def calculate_moving_average(cleaned_df, price_column='Close', window_size=20):
     return rolling_average_series
 
 
+
+# Calculate drawdowns
+
+def calculate_drawdowns(cleaned_df, price_column='Close'):
+    """
+    - Input cleaned dataframe
+    - Take the Series of the simple returns
+    - Create a Series of cumulative returns for each day
+    - Find each respective previous max
+    - Output Series of drawdowns
+    """
+
+    simple_returns_series = calculate_simple_returns(cleaned_df, price_column)
+
+    cumulative_returns = (1 + simple_returns_series).cumprod()
+
+    cumulative_max = cumulative_returns.cummax()
+
+    drawdowns_series = (cumulative_returns - cumulative_max) / cumulative_max
+
+    return drawdowns_series
