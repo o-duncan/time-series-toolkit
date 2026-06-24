@@ -4,7 +4,7 @@ import numpy as np
 from pathlib import Path
 
 from data_loader import read_csv_data, clean_csv_data
-from metrics import calculate_simple_returns, calculate_log_returns
+from metrics import calculate_simple_returns, calculate_log_returns, calculate_rolling_volatility
 
 
 # Form project root and file directory
@@ -27,10 +27,12 @@ def main():
 
     simple_returns = calculate_simple_returns(cleaned_df)
     log_returns = calculate_log_returns(cleaned_df)
+
+    rolling_volatility = calculate_rolling_volatility
     
     # cleaned_df.info()
     # print()
-    # print(log_returns)
+    # print(rolling_volatility)
 
 
 
