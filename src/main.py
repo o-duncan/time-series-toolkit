@@ -4,6 +4,7 @@ import pandas as pd
 from pathlib import Path
 
 from data_loader import read_csv_data, clean_csv_data
+from metrics import calculate_simple_returns
 
 
 # Form project root and file directory
@@ -17,13 +18,16 @@ def main():
     - Input data set
     - Create raw dataframe
     - Create cleaned df
-    - Output a confirmation of cleaned df as info
+    - Create a Series of simple returns
     """
 
     raw_df = read_csv_data(file_path)
     cleaned_df = clean_csv_data(raw_df)
+    simple_returns = calculate_simple_returns(cleaned_df)
 
-    print(cleaned_df.info())
+    cleaned_df.info()
+    print()
+    print(simple_returns)
 
 
 
