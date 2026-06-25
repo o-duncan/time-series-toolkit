@@ -42,7 +42,7 @@ def calculate_log_returns(cleaned_df, price_column='Close'):
 
 # Calculate rolling volatility
 
-def calculate_rolling_volatility(cleaned_df, price_column='Close', window_size=20, trading_days_pa=252):
+def calculate_rolling_volatility(cleaned_df, price_column='Close', window_size=20, trading_days_per_year=252):
     """
     - Input cleaned dataframe into function
     - Calculate log returns from each day
@@ -57,7 +57,7 @@ def calculate_rolling_volatility(cleaned_df, price_column='Close', window_size=2
 
     std_series = log_returns.rolling(window=window_size).std()
 
-    rolling_volatility_series = std_series * np.sqrt(trading_days_pa)
+    rolling_volatility_series = std_series * np.sqrt(trading_days_per_year)
 
     return rolling_volatility_series
 
@@ -100,3 +100,45 @@ def calculate_drawdowns(cleaned_df, price_column='Close'):
     drawdowns_series = (cumulative_returns - cumulative_max) / cumulative_max
 
     return drawdowns_series
+
+
+
+# General Statistics Summary function
+
+def calculate_summary_statistics(cleaned_df, price_column='Close', trading_days_per_year=252):
+    """
+    - Create a price series from an inputted cleaned dataframe
+    - Create a function to determine the observation count of the dataset
+    - Calculate start price and end price
+    - Calcualte cumulative returns from the chosen pricing column
+    - Calculate the annualised volatility of the data set
+    - Find the maximum drawdown of the pricing history
+    - Output this is as a summary of respective statistics
+    """
+    
+    price_series = cleaned_df[price_column]
+
+    observation_count = price_series.count()
+
+    start_price = price_series.iloc[0]
+    end_price = price_series.iloc[-1]
+
+    cumulative_return = (end_price - start_price) / start_price
+
+    annualised_volatility = calculate_log_returns(cleaned_df, price_column).std() * np.sqrt(trading_days_per_year)
+
+    maximum_drawdown = calculate_drawdowns(cleaned_df, price_column).min()
+    
+
+    summary_list = [observation_count, start_price, end_price, cumulative_return, annualised_volatility, maximum_drawdown]
+    summary_titles = [
+        'Observation count:', 
+        'Starting price:', 
+        'Ending price:', 
+        'Cumulative return:', 
+        'Annualised Volatility:', 
+        'Maximum drawdown:'
+        ]
+    
+    summary_series = pd.Series(summary_list, index=summary_titles)
+    return summary_series
