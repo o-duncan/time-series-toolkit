@@ -85,19 +85,16 @@ def calculate_moving_average(cleaned_df, price_column='Close', window_size=20):
 def calculate_drawdowns(cleaned_df, price_column='Close'):
     """
     - Input cleaned dataframe
-    - Take the Series of the simple returns
-    - Create a Series of cumulative returns for each day
+    - Take the pricing series
     - Find each respective previous max
     - Output Series of drawdowns
     """
 
-    simple_returns_series = calculate_simple_returns(cleaned_df, price_column)
+    pricing_series = cleaned_df[price_column]
 
-    cumulative_returns = (1 + simple_returns_series).cumprod()
+    cumulative_max = pricing_series.cummax()
 
-    cumulative_max = cumulative_returns.cummax()
-
-    drawdowns_series = (cumulative_returns - cumulative_max) / cumulative_max
+    drawdowns_series = (pricing_series - cumulative_max) / cumulative_max
 
     return drawdowns_series
 
